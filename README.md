@@ -1,20 +1,20 @@
-﻿# Multi-MC-modpack-web-tool
+﻿# Multi-MC-modpack-Web-tool
 
 ## English
 
 ### Overview
 
-Multi-MC-modpack-web-tool is a GitHub Pages compatible React + TypeScript GUI for calculating alloy material combinations. The calculation logic was ported from the original Python Tkinter program into a pure TypeScript engine that runs directly in the browser.
+Multi-MC-modpack-Web-tool is a GitHub Pages compatible React + TypeScript GUI for calculating alloy material combinations. The calculation logic was ported from the original Python Tkinter program into a pure TypeScript engine that runs directly in the browser.
 
 Creator: Peaplant  
 GitHub username: Peap1ant  
-Repository: https://github.com/Peap1ant/Multi-MC-modpack-web-tool
+Repository: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
 
 This program was developed with the help of AI.
 
 ### Live Demo
 
-https://Peap1ant.github.io/Multi-MC-modpack-web-tool/
+https://Peap1ant.github.io/Multi-MC-modpack-Web-tool/
 
 ### Features
 
@@ -67,7 +67,7 @@ Use the Info button in the top-right header to see:
 
 - Creator: Peaplant
 - Web program version
-- GitHub repository: https://github.com/Peap1ant/Multi-MC-modpack-web-tool
+- GitHub repository: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
 - AI development message
 
 The repository link opens in a new tab.
@@ -127,7 +127,7 @@ The root `package.json` contains:
 
 ```json
 {
-  "homepage": "https://Peap1ant.github.io/Multi-MC-modpack-web-tool/",
+  "homepage": "https://Peap1ant.github.io/Multi-MC-modpack-Web-tool/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d frontend/dist"
@@ -139,17 +139,17 @@ The root `package.json` contains:
 
 ### 개요
 
-Multi-MC-modpack-web-tool은 합금 재료 조합을 계산하는 React + TypeScript 기반 웹 GUI입니다. 기존 Python Tkinter 프로그램의 계산 로직을 순수 TypeScript 엔진으로 변환했으며, GitHub Pages에서 Node.js 서버 없이 브라우저에서 직접 실행됩니다.
+Multi-MC-modpack-Web-tool은 합금 재료 조합을 계산하는 React + TypeScript 기반 웹 GUI입니다. 기존 Python Tkinter 프로그램의 계산 로직을 순수 TypeScript 엔진으로 변환했으며, GitHub Pages에서 Node.js 서버 없이 브라우저에서 직접 실행됩니다.
 
 제작자: Peaplant  
 GitHub 사용자 이름: Peap1ant  
-저장소: https://github.com/Peap1ant/Multi-MC-modpack-web-tool
+저장소: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
 
 이 프로그램은 AI의 도움을 받아 개발되었습니다.
 
 ### 실행 링크
 
-https://Peap1ant.github.io/Multi-MC-modpack-web-tool/
+https://Peap1ant.github.io/Multi-MC-modpack-Web-tool/
 
 ### 주요 기능
 
@@ -202,7 +202,7 @@ preset 데이터는 autosave 데이터와 별도 localStorage key에 저장됩�
 
 - Creator: Peaplant
 - 웹 프로그램 버전
-- GitHub 저장소: https://github.com/Peap1ant/Multi-MC-modpack-web-tool
+- GitHub 저장소: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
 - AI 개발 도움 메시지
 
 GitHub 저장소 링크는 새 탭에서 열립니다.
@@ -262,7 +262,7 @@ npm run deploy
 
 ```json
 {
-  "homepage": "https://Peap1ant.github.io/Multi-MC-modpack-web-tool/",
+  "homepage": "https://Peap1ant.github.io/Multi-MC-modpack-Web-tool/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d frontend/dist"
