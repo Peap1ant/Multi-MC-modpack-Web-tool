@@ -2,7 +2,7 @@
   "name": "multi-mc-modpack-web-tool",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Peap1ant.github.io/Multi-MC-modpack-Web-tool/",
+  "homepage": "https://peap1ant.github.io/Multi-MC-modpack-Web-tool/",
   "type": "module",
   "workspaces": [
     "shared",

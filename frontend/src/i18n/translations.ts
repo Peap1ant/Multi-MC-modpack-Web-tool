@@ -2,7 +2,7 @@ import type { Language } from "../types/settings.js";
 
 export const translations = {
   en: {
-    appTitle: "Multi-MC-modpack-web-tool",
+    appTitle: "Multi-MC-modpack-Web-tool",
     appSubtitle: "A static React GUI that runs the TypeScript alloy calculation engine directly in the browser.",
     settings: "Settings",
     info: "Info",
@@ -87,7 +87,7 @@ export const translations = {
     }
   },
   ko: {
-    appTitle: "Multi-MC-modpack-web-tool",
+    appTitle: "Multi-MC-modpack-Web-tool",
     appSubtitle: "TypeScript 합금 계산 엔진을 브라우저에서 직접 실행하는 정적 React GUI입니다.",
     settings: "설정",
     info: "정보",
