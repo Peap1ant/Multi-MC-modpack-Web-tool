@@ -1,6 +1,6 @@
 {
   "name": "@tfc-alloy/shared",
-  "version": "0.1.0",
+  "version": "0.1.1-beta",
   "private": true,
   "type": "module",
   "main": "dist/index.js",

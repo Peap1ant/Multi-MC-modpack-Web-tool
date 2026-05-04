@@ -3,7 +3,135 @@ import type { Language } from "../types/settings.js";
 export const translations = {
   en: {
     appTitle: "Multi-MC-modpack-Web-tool",
-    appSubtitle: "A static React GUI that runs the TypeScript alloy calculation engine directly in the browser.",
+    appSubtitle: "A web tool collection for Minecraft modpack utilities.",
+    menuButton: "Menu",
+    menuItems: {
+      tabs: {
+        home: "Home",
+        tfcAlloy: "TFC Alloy Calculator",
+        automationCalculator: "Automation Calculator"
+      },
+      categories: {
+        tfc: "TFC",
+        etc: "etc"
+      }
+    },
+    home: {
+      title: "Home",
+      projectInfo: "Project Info",
+      creator: "Creator",
+      version: "Version",
+      language: "Language",
+      features: "Features",
+      description: "A web tool collection for Minecraft modpack utilities.",
+      featureItems: [
+        {
+          title: "TFC Alloy Calculator",
+          description: "A calculator tool for TerraFirmaCraft alloys and metal casting."
+        },
+        {
+          title: "Theme setting",
+          description: "Switch between Light, Dark, and Follow system display modes."
+        },
+        {
+          title: "Save & Load presets",
+          description: "Save common alloy inputs and load them again later."
+        },
+        {
+          title: "Autosave input data",
+          description: "Restore the latest calculator input after closing and reopening the site."
+        },
+        {
+          title: "Result pie chart",
+          description: "Review calculated material composition with a pie chart, legend, and tooltip."
+        },
+        {
+          title: "GitHub Pages support",
+          description: "Run the frontend as a static site without a required Node.js server."
+        }
+      ]
+    },
+    calculatorDescription: "A calculator tool for TerraFirmaCraft alloys and metal casting.",
+    automationCalculator: {
+      description: "Build automation nodes, tune machine inputs and outputs, and review matching resource links.",
+      addNode: "Add node",
+      addProcessNode: "Process Node",
+      addResourceNode: "Resource Node",
+      processNode: "Process node",
+      resourceNode: "Resource node",
+      resourceType: "Resource type",
+      item: "Item",
+      fluid: "Fluid",
+      resourceName: "Resource name",
+      resourceAmount: "Resource amount",
+      resourceColor: "Resource color",
+      settings: "Info & Settings",
+      save: "Save",
+      load: "Load",
+      saveFile: "Save JSON",
+      loadFile: "Load JSON",
+      saveNamePrompt: "Enter a name for this automation file.",
+      invalidAutomationFile: "Invalid automation calculator JSON file.",
+      unsupportedAutomationFileVersion: "Unsupported automation calculator JSON version.",
+      fileSaved: "Automation JSON file saved.",
+      fileLoaded: "Automation JSON file loaded.",
+      saveNameRequired: "Please enter a file name.",
+      saved: "Automation nodes saved.",
+      loaded: "Automation nodes loaded.",
+      emptyGraph: "Add a node to start building an automation graph.",
+      emptySettings: "Select or add a node to edit automation settings.",
+      graphHelp: "Drag nodes. Use Arrow keys or WASD to move selected node.",
+      graphPanHelp: "Drag empty graph area to pan. Click a node to edit.",
+      unnamedNode: "Unnamed node",
+      none: "없음",
+      basicInfo: "Basic info",
+      nodeName: "Node name",
+      nodeColor: "Node color",
+      shape: "Node shape",
+      shapeAndColor: "Shape preview",
+      shapes: {
+        square: "Square",
+        circle: "Circle",
+        diamond: "Diamond"
+      },
+      power: "Power",
+      consumePower: "Consume / tick",
+      producePower: "Produce / tick",
+      powerUnit: "Unit",
+      blankPowerAllowed: "Power values can be blank when a node does not consume or produce power.",
+      processingTime: "Processing time",
+      timeMode: "Mode",
+      timeValue: "Value",
+      ticks: "Ticks",
+      seconds: "Seconds",
+      tickRule: "1 second = 20 ticks. Tick mode accepts 1-19 ticks; seconds mode starts at 1 second.",
+      inputItems: "Input items",
+      inputFluids: "Input fluids",
+      outputItems: "Output items",
+      outputFluids: "Output fluids",
+      addItem: "+ Item",
+      addFluid: "+ Fluid",
+      deleteNode: "Delete node",
+      name: "Name",
+      amount: "Amount",
+      amountMb: "mB",
+      color: "Color",
+      colorHelp: "Available colors: red, blue, green, yellow, orange, purple, black, white, gray, brown. Hex colors like #336699 are also supported.",
+      perTick: "Per tick",
+      perTickChance: "Per tick chance %",
+      processChance: "Process chance %",
+      outputChance: "Output chance %",
+      chance: "Chance %",
+      notConsumed: "Not consumed",
+      more: "More",
+      less: "Less",
+      storageActions: "Delete",
+      invalidColor: "Invalid color. Use a supported CSS color name or #hex value.",
+      invalidTicks: "Tick mode requires an integer from 1 to 19.",
+      invalidSeconds: "Seconds mode requires a value of 1 or higher.",
+      invalidPower: "Power values must be 0 or higher.",
+      invalidAmount: "Amount must be greater than 0."
+    },
     settings: "Settings",
     info: "Info",
     display: "Display",
@@ -88,7 +216,135 @@ export const translations = {
   },
   ko: {
     appTitle: "Multi-MC-modpack-Web-tool",
-    appSubtitle: "TypeScript 합금 계산 엔진을 브라우저에서 직접 실행하는 정적 React GUI입니다.",
+    appSubtitle: "Minecraft 모드팩 유틸리티를 위한 웹 도구 모음입니다.",
+    menuButton: "메뉴",
+    menuItems: {
+      tabs: {
+        home: "Home",
+        tfcAlloy: "TFC Alloy Calculator",
+        automationCalculator: "Automation Calculator"
+      },
+      categories: {
+        tfc: "TFC",
+        etc: "etc"
+      }
+    },
+    home: {
+      title: "Home",
+      projectInfo: "프로젝트 정보",
+      creator: "제작자",
+      version: "버전",
+      language: "언어",
+      features: "기능",
+      description: "Minecraft 모드팩 유틸리티를 위한 웹 도구 모음입니다.",
+      featureItems: [
+        {
+          title: "TFC Alloy Calculator",
+          description: "TerraFirmaCraft의 합금 및 금속 주조를 위한 계산 도구입니다."
+        },
+        {
+          title: "테마 설정",
+          description: "라이트, 다크, 시스템 설정 따르기 화면 모드를 선택할 수 있습니다."
+        },
+        {
+          title: "저장 & 불러오기",
+          description: "자주 쓰는 합금 입력값을 저장하고 나중에 다시 불러올 수 있습니다."
+        },
+        {
+          title: "입력값 자동 저장",
+          description: "사이트를 닫았다 다시 열어도 마지막 계산기 입력값을 복원합니다."
+        },
+        {
+          title: "결과 원 그래프",
+          description: "계산된 재료 구성을 원 그래프, 범례, 툴팁으로 확인합니다."
+        },
+        {
+          title: "GitHub Pages 지원",
+          description: "필수 Node.js 서버 없이 정적 프론트엔드로 실행할 수 있습니다."
+        }
+      ]
+    },
+    calculatorDescription: "TerraFirmaCraft의 합금 및 금속 주조를 위한 계산 도구입니다.",
+    automationCalculator: {
+      description: "자동화 노드를 만들고, 기계 입출력과 리소스 연결을 확인합니다.",
+      addNode: "노드 추가",
+      addProcessNode: "처리 노드",
+      addResourceNode: "리소스 노드",
+      processNode: "처리 노드",
+      resourceNode: "리소스 노드",
+      resourceType: "리소스 타입",
+      item: "아이템",
+      fluid: "액체",
+      resourceName: "리소스 이름",
+      resourceAmount: "리소스 양",
+      resourceColor: "리소스 색",
+      settings: "정보 및 설정",
+      save: "저장",
+      load: "불러오기",
+      saveFile: "JSON 저장",
+      loadFile: "JSON 불러오기",
+      saveNamePrompt: "자동화 파일 이름을 입력하세요.",
+      invalidAutomationFile: "올바른 자동화 계산기 JSON 파일이 아닙니다.",
+      unsupportedAutomationFileVersion: "지원하지 않는 자동화 계산기 JSON 버전입니다.",
+      fileSaved: "자동화 JSON 파일을 저장했습니다.",
+      fileLoaded: "자동화 JSON 파일을 불러왔습니다.",
+      saveNameRequired: "파일 이름을 입력하세요.",
+      saved: "자동화 노드를 저장했습니다.",
+      loaded: "자동화 노드를 불러왔습니다.",
+      emptyGraph: "노드를 추가해서 자동화 그래프를 시작하세요.",
+      emptySettings: "노드를 선택하거나 추가해서 설정을 편집하세요.",
+      graphHelp: "노드를 드래그하세요. 선택 노드는 방향키 또는 WASD로 이동할 수 있습니다.",
+      graphPanHelp: "빈 그래프 영역을 드래그해 화면을 이동하세요. 노드를 클릭하면 편집합니다.",
+      unnamedNode: "이름 없는 노드",
+      none: "없음",
+      basicInfo: "기본 정보",
+      nodeName: "노드 이름",
+      nodeColor: "노드 색",
+      shape: "노드 모양",
+      shapeAndColor: "모양 미리보기",
+      shapes: {
+        square: "정사각형",
+        circle: "원",
+        diamond: "다이아몬드"
+      },
+      power: "전력",
+      consumePower: "소모 / tick",
+      producePower: "생산 / tick",
+      powerUnit: "단위",
+      blankPowerAllowed: "전력을 소모하거나 생산하지 않는 노드는 전력 값을 비워둘 수 있습니다.",
+      processingTime: "처리 시간",
+      timeMode: "모드",
+      timeValue: "값",
+      ticks: "ticks",
+      seconds: "seconds",
+      tickRule: "1초 = 20틱입니다. ticks 모드는 1-19틱, seconds 모드는 1초 이상을 허용합니다.",
+      inputItems: "입력 아이템",
+      inputFluids: "입력 액체",
+      outputItems: "출력 아이템",
+      outputFluids: "출력 액체",
+      addItem: "+ 아이템",
+      addFluid: "+ 액체",
+      deleteNode: "노드 삭제",
+      name: "이름",
+      amount: "수량",
+      amountMb: "mB",
+      color: "색",
+      colorHelp: "사용 가능한 색상: red, blue, green, yellow, orange, purple, black, white, gray, brown. #336699 같은 hex 색상도 사용할 수 있습니다.",
+      perTick: "tick당",
+      perTickChance: "tick당 확률 %",
+      processChance: "처리당 확률 %",
+      outputChance: "출력 확률 %",
+      chance: "확률 %",
+      notConsumed: "소모 안함",
+      more: "더보기",
+      less: "접기",
+      storageActions: "삭제",
+      invalidColor: "색상 값이 올바르지 않습니다. CSS 색상 이름 또는 #hex 값을 사용하세요.",
+      invalidTicks: "ticks 모드는 1부터 19까지의 정수만 허용합니다.",
+      invalidSeconds: "seconds 모드는 1 이상의 값을 허용합니다.",
+      invalidPower: "전력 값은 0 이상이어야 합니다.",
+      invalidAmount: "양은 0보다 커야 합니다."
+    },
     settings: "설정",
     info: "정보",
     display: "화면",
@@ -106,7 +362,7 @@ export const translations = {
     materialInput: "재료 입력",
     singleMaterial: "단일 재료: 비율 조건 무시",
     addMaterial: "+ 재료",
-    removeMaterial: "재료 삭제",
+    removeMaterial: "재료 제거",
     name: "이름",
     owned: "보유",
     mbPerItem: "mB/개",
@@ -117,9 +373,9 @@ export const translations = {
     alloyTargetName: "합금 목표 이름",
     targetCraftCount: "목표 제작 개수",
     mbPerIngot: "주괴당 mB",
-    crucibleMaxMb: "Crucible 최대 mB",
-    vessel: "Vessel",
-    crucible: "Crucible",
+    crucibleMaxMb: "도가니 최대 mB",
+    vessel: "용기",
+    crucible: "도가니",
     calculate: "계산",
     calculating: "계산 중...",
     saveLoad: "저장 & 불러오기",
@@ -153,7 +409,7 @@ export const translations = {
     deleted: "삭제되었습니다.",
     colorHelp: "사용 가능한 색상: red, blue, green, yellow, orange, purple, black, white, gray, brown. #336699 같은 hex 색상도 사용할 수 있습니다.",
     colorInvalid: "색상 값이 올바르지 않습니다. 사용 가능한 색상 이름 또는 #336699 같은 hex 색상을 입력하세요.",
-    compositionChart: "구성 원 그래프",
+    compositionChart: "구성 그래프",
     noSolution: "가능한 조합이 없습니다.",
     yes: "예",
     unknownError: "알 수 없는 오류입니다.",
@@ -168,7 +424,7 @@ export const translations = {
       alloyName: "합금 이름, 예: Bronze",
       targetIngots: "목표 주괴 개수",
       mbPerIngot: "주괴당 mB",
-      crucibleCapacity: "Crucible 용량 mB"
+      crucibleCapacity: "도가니 용량 mB"
     }
   }
 } as const;

@@ -2,14 +2,17 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import type { CalculationRequest, CalculationResult, MaterialRowData } from "@tfc-alloy/shared";
 import { Header } from "./components/Header.js";
 import { InfoModal } from "./components/InfoModal.js";
-import { PieChartResult } from "./components/PieChartResult.js";
 import { SaveLoadModal } from "./components/SaveLoadModal.js";
 import { SettingsModal } from "./components/SettingsModal.js";
+import { APP_MENU_ITEMS, DEFAULT_APP_TAB_ID, TAB_IDS, type AppTabId } from "./constants/tabs.js";
 import { getTranslations } from "./i18n/translations.js";
 import { calculateAlloy } from "./services/calculate.js";
 import { EMPTY_FORM_STATE, loadAutosave, saveAutosave } from "./storage/autosaveStorage.js";
 import { applyPresetToForm, loadPresets, savePresets } from "./storage/presetStorage.js";
 import { loadSettings, saveSettings } from "./storage/settingsStorage.js";
+import { AutomationCalculatorTab } from "./tabs/AutomationCalculatorTab.js";
+import { HomeTab } from "./tabs/HomeTab.js";
+import { TfcAlloyCalculatorTab } from "./tabs/TfcAlloyCalculatorTab.js";
 import type { AlloyFormState, MaterialFormRow } from "./types/form.js";
 import type { SavedPreset } from "./types/preset.js";
 import type { AppSettings } from "./types/settings.js";
@@ -19,6 +22,7 @@ type ActiveModal = "settings" | "info" | "saveLoad" | null;
 
 export function App() {
   const [settings, setSettings] = useState<AppSettings>(() => loadSettings());
+  const [activeTabId, setActiveTabId] = useState<AppTabId>(DEFAULT_APP_TAB_ID);
   const [form, setForm] = useState<AlloyFormState>(() => loadAutosave() ?? EMPTY_FORM_STATE);
   const [presets, setPresets] = useState<SavedPreset[]>(() => loadPresets());
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -28,6 +32,41 @@ export function App() {
   const [uiElapsedMs, setUiElapsedMs] = useState<number | null>(null);
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
   const labels = useMemo(() => getTranslations(settings.language), [settings.language]);
+
+  const menuItems = useMemo(
+    () => APP_MENU_ITEMS.map((item) => {
+      if (item.type === "tab") {
+        return {
+          type: "tab" as const,
+          id: item.id,
+          label: labels.menuItems.tabs[item.labelKey]
+        };
+      }
+
+      return {
+        type: "category" as const,
+        id: item.id,
+        label: labels.menuItems.categories[item.labelKey],
+        children: item.children.map((child) => ({
+          id: child.id,
+          label: labels.menuItems.tabs[child.labelKey]
+        }))
+      };
+    }),
+    [labels]
+  );
+
+  const currentTabLabel = useMemo(() => {
+    for (const item of menuItems) {
+      if (item.type === "tab" && item.id === activeTabId) return item.label;
+      if (item.type === "category") {
+        const child = item.children.find((candidate) => candidate.id === activeTabId);
+        if (child) return child.label;
+      }
+    }
+
+    return labels.menuItems.tabs.home;
+  }, [activeTabId, labels.menuItems.tabs.home, menuItems]);
 
   const ratioIgnored = useMemo(
     () => new Set(form.rows.map((row) => row.name.trim()).filter(Boolean)).size < 2,
@@ -112,85 +151,47 @@ export function App() {
     setError("");
     setStatusMessage(labels.loaded);
     setActiveModal(null);
+    setActiveTabId(TAB_IDS.TFC_ALLOY);
   }
 
   return (
     <>
       <Header
+        menuLabel={labels.menuButton}
+        currentTabLabel={currentTabLabel}
+        menuItems={menuItems}
+        activeTabId={activeTabId}
         settingsLabel={labels.settings}
         infoLabel={labels.info}
+        onSelectTab={setActiveTabId}
         onOpenSettings={() => setActiveModal("settings")}
         onOpenInfo={() => setActiveModal("info")}
       />
 
-      <main className="app-shell">
-        <section className="workspace">
-          <div className="topbar">
-            <div>
-              <h1>{labels.appTitle}</h1>
-              <p>{labels.appSubtitle}</p>
-            </div>
-            <button type="button" className="secondary-button" onClick={addRow}>{labels.addMaterial}</button>
-          </div>
-
-          <form onSubmit={handleSubmit} className="calculator-grid">
-            <section className="panel materials-panel">
-              <div className="panel-heading">
-                <h2>{labels.materialInput}</h2>
-                {ratioIgnored && <span className="hint">{labels.singleMaterial}</span>}
-              </div>
-              <div className="material-table" role="table">
-                <div className="material-header" role="row">
-                  <span>{labels.name}</span>
-                  <span>{labels.owned}</span>
-                  <span>{labels.mbPerItem}</span>
-                  <span>{labels.minRatio}</span>
-                  <span>{labels.maxRatio}</span>
-                  <span>{labels.color}</span>
-                  <span></span>
-                </div>
-                {form.rows.map((row) => (
-                  <div className="material-row" role="row" key={row.rowId}>
-                    <input value={row.name} onChange={(event) => updateRow(row.rowId, { name: event.target.value })} placeholder={labels.placeholders.materialName} />
-                    <input inputMode="numeric" value={row.owned} onChange={(event) => updateRow(row.rowId, { owned: event.target.value })} placeholder={labels.placeholders.owned} />
-                    <input inputMode="numeric" value={row.mbPerItem} onChange={(event) => updateRow(row.rowId, { mbPerItem: event.target.value })} placeholder={labels.placeholders.mbPerItem} />
-                    <input inputMode="decimal" value={row.minRatio} disabled={ratioIgnored} onChange={(event) => updateRow(row.rowId, { minRatio: event.target.value })} placeholder={labels.placeholders.minRatio} />
-                    <input inputMode="decimal" value={row.maxRatio} disabled={ratioIgnored} onChange={(event) => updateRow(row.rowId, { maxRatio: event.target.value })} placeholder={labels.placeholders.maxRatio} />
-                    <input value={row.color} title={labels.colorHelp} aria-label={`${labels.color}. ${labels.colorHelp}`} onChange={(event) => updateRow(row.rowId, { color: event.target.value })} placeholder={labels.placeholders.color} />
-                    <button type="button" aria-label={labels.removeMaterial} className="icon-button danger" onClick={() => removeRow(row.rowId)}>×</button>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="panel target-panel">
-              <h2>{labels.alloyTarget}</h2>
-              <div className="target-grid">
-                <label>{labels.alloyTargetName}<input value={form.alloyName} placeholder={labels.placeholders.alloyName} onChange={(event) => updateForm({ alloyName: event.target.value })} /></label>
-                <label>{labels.targetCraftCount}<input inputMode="numeric" value={form.targetIngots} placeholder={labels.placeholders.targetIngots} onChange={(event) => updateForm({ targetIngots: event.target.value })} /></label>
-                <label>{labels.mbPerIngot}<input inputMode="numeric" value={form.mbPerIngot} placeholder={labels.placeholders.mbPerIngot} onChange={(event) => updateForm({ mbPerIngot: event.target.value })} /></label>
-                <label>{labels.crucibleMaxMb}<input inputMode="numeric" disabled={form.mode === "Vessel"} value={form.crucibleCapacity} placeholder={labels.placeholders.crucibleCapacity} onChange={(event) => updateForm({ crucibleCapacity: event.target.value })} /></label>
-              </div>
-              <div className="action-row">
-                <div className="mode-row" role="radiogroup" aria-label={labels.calculationMode}>
-                  <button type="button" className={form.mode === "Vessel" ? "selected" : ""} onClick={() => updateForm({ mode: "Vessel" })}>{labels.vessel}</button>
-                  <button type="button" className={form.mode === "Crucible" ? "selected" : ""} onClick={() => updateForm({ mode: "Crucible" })}>{labels.crucible}</button>
-                </div>
-                <button className="calculate-button" disabled={loading}>{loading ? labels.calculating : labels.calculate}</button>
-                <button type="button" className="secondary-button" onClick={() => setActiveModal("saveLoad")}>{labels.saveLoad}</button>
-              </div>
-            </section>
-          </form>
-        </section>
-
-        <aside className="result-panel">
-          <h2>{labels.result}</h2>
-          {error && <div className={result ? "empty-state" : "error-box"}>{error}</div>}
-          {statusMessage && !error && <div className="empty-state">{statusMessage}</div>}
-          {!error && !statusMessage && !result && <div className="empty-state">{labels.emptyState}</div>}
-          {result && <ResultView result={result} rows={form.rows} uiElapsedMs={uiElapsedMs} labels={labels} />}
-        </aside>
-      </main>
+      {activeTabId === TAB_IDS.HOME && (
+        <HomeTab labels={labels} settings={settings} onChangeSettings={setSettings} />
+      )}
+      {activeTabId === TAB_IDS.TFC_ALLOY && (
+        <TfcAlloyCalculatorTab
+          labels={labels}
+          form={form}
+          result={result}
+          error={error}
+          statusMessage={statusMessage}
+          loading={loading}
+          uiElapsedMs={uiElapsedMs}
+          ratioIgnored={ratioIgnored}
+          onSubmit={handleSubmit}
+          onAddRow={addRow}
+          onRemoveRow={removeRow}
+          onUpdateForm={updateForm}
+          onUpdateRow={updateRow}
+          onOpenSaveLoad={() => setActiveModal("saveLoad")}
+        />
+      )}
+      {activeTabId === TAB_IDS.ETC_AUTOMATION_CALCULATOR && (
+        <AutomationCalculatorTab labels={labels} />
+      )}
 
       {activeModal === "settings" && <SettingsModal settings={settings} labels={labels} onChange={setSettings} onClose={() => setActiveModal(null)} />}
       {activeModal === "info" && <InfoModal labels={labels} onClose={() => setActiveModal(null)} />}
@@ -206,82 +207,6 @@ export function App() {
       )}
     </>
   );
-}
-
-function ResultView({
-  result,
-  rows,
-  uiElapsedMs,
-  labels
-}: {
-  result: CalculationResult;
-  rows: MaterialFormRow[];
-  uiElapsedMs: number | null;
-  labels: ReturnType<typeof getTranslations>;
-}) {
-  const rowLookup = new Map(rows.map((row) => [row.rowId, row]));
-  const materialEntries = Object.entries(result.materialMbs).filter(([, mb]) => mb > 0);
-
-  if (!result.possible) {
-    return <div className="error-box">{labels.noSolution} {labels.coreTime}: {result.elapsedMs.toFixed(3)} ms</div>;
-  }
-
-  return (
-    <div className="result-stack">
-      <div className="metric-grid">
-        <Metric label={labels.craftable} value={labels.yes} />
-        <Metric label={labels.actualIngots} value={result.actualIngots} />
-        <Metric label={labels.totalMb} value={result.totalMb} />
-        <Metric label={labels.leftoverMb} value={result.leftoverMb} />
-        <Metric label={labels.coreTime} value={`${result.elapsedMs.toFixed(3)} ms`} />
-        <Metric label={labels.uiTime} value={uiElapsedMs === null ? "-" : `${uiElapsedMs.toFixed(3)} ms`} />
-      </div>
-
-      <PieChartResult result={result} labels={labels} />
-
-      <section>
-        <h3>{labels.materialRatio}</h3>
-        <div className="ratio-list">
-          {materialEntries.map(([material, mb]) => (
-            <div className="ratio-row" key={material}>
-              <span className="swatch" style={{ background: result.colors[material] ?? "#64748b" }}></span>
-              <strong>{material}</strong>
-              <span>{mb} mB</span>
-              <span>{(result.materialRatios[material] ?? 0).toFixed(4)}%</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h3>{labels.itemsToUse}</h3>
-        <div className="use-list">
-          {Object.entries(result.rowCounts).map(([rowId, count]) => {
-            const source = rowLookup.get(Number(rowId));
-            return (
-              <div className="use-row" key={rowId}>
-                <span>{source?.name ?? `${labels.row} ${rowId}`}</span>
-                <span>{labels.row} {rowId}</span>
-                <strong>{count} {labels.items}</strong>
-                <span>{source?.mbPerItem ?? "-"} {labels.mbPerItem}</span>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section>
-        <h3>{labels.constraints}</h3>
-        <ul className="notes">
-          {result.constraintNotes.map((note) => <li key={note}>{note}</li>)}
-        </ul>
-      </section>
-    </div>
-  );
-}
-
-function Metric({ label, value }: { label: string; value: string | number }) {
-  return <div className="metric"><span>{label}</span><strong>{value}</strong></div>;
 }
 
 function toMaterialRow(row: MaterialFormRow): MaterialRowData {

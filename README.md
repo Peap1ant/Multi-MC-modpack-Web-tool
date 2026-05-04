@@ -1,46 +1,60 @@
-﻿# Multi-MC-modpack-Web-tool
+# Multi-MC-modpack-Web-tool
+
+Version: v0.1.1-beta
+
+Live Demo: https://peap1ant.github.io/Multi-MC-modpack-Web-tool/  
+Repository: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
 
 ## English
 
 ### Overview
 
-Multi-MC-modpack-Web-tool is a GitHub Pages compatible React + TypeScript GUI for calculating alloy material combinations. The calculation logic was ported from the original Python Tkinter program into a pure TypeScript engine that runs directly in the browser.
+Multi-MC-modpack-Web-tool is a GitHub Pages compatible React + TypeScript web tool collection for Minecraft modpack utilities. The first screen is now a Home screen with project information, version information, language controls, and the current feature list.
 
 Creator: Peaplant  
-GitHub username: Peap1ant  
-Repository: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
+GitHub username: Peap1ant
 
 This program was developed with the help of AI.
 
-### Live Demo
+### Navigation
 
-https://peap1ant.github.io/Multi-MC-modpack-Web-tool/
+The header menu uses a category-based structure:
+
+- Home
+- TFC
+- TFC Alloy Calculator
+
+Home is the default entry screen and always appears at the top of the menu. The previous test tab has been removed. TFC Alloy Calculator is listed under the TFC category.
 
 ### Features
 
-- Static GitHub Pages deployment with no required Node.js server
-- Browser-side alloy calculation under the 1 second target for normal inputs
+- Home screen with project name, creator, version, language selector, and feature descriptions
+- Category-based menu with expandable sections
+- TFC Alloy Calculator for TerraFirmaCraft alloys and metal casting
 - Vessel and Crucible calculation modes
 - Ratio validation, capacity validation, and clear error messages
 - Light, Dark, and Follow system display settings
-- English and Korean UI language settings
+- English and Korean UI language settings in both Home and Settings
 - Settings are saved in `localStorage`
 - Autosave restores the latest form after closing and reopening the site
 - Save & Load presets for material names, colors, ratios, alloy name, and mB per ingot
-- Color tooltip with supported Python-compatible colors
 - Result pie chart with labels, legend, and tooltip
 - Info modal with creator, version, repository link, and AI development message
+- Static GitHub Pages deployment with no required Node.js server
 
-### How To Use
+### How To Use TFC Alloy Calculator
 
-1. Add one or more material rows.
-2. Enter material name, owned item count, mB per item, ratio range, and color.
-3. Enter the alloy target name, target craft count, and mB per ingot.
-4. Choose Vessel or Crucible. Crucible requires a max capacity value.
-5. Press Calculate.
-6. Review the craftability result, material ratios, item counts, constraints, and pie chart.
+1. Open the Menu.
+2. Expand TFC.
+3. Select TFC Alloy Calculator.
+4. Add one or more material rows.
+5. Enter material name, owned item count, mB per item, ratio range, and color.
+6. Enter the alloy target name, target craft count, and mB per ingot.
+7. Choose Vessel or Crucible. Crucible requires a max capacity value.
+8. Press Calculate.
+9. Review the craftability result, material ratios, item counts, constraints, and pie chart.
 
-For a single unique material, ratio values are ignored, matching the Python program behavior.
+For a single unique material, ratio values are ignored, matching the original Python program behavior.
 
 ### Save & Load
 
@@ -59,18 +73,7 @@ Use the Settings button in the top-right header.
 - Display: Light, Dark, or Follow system
 - Language: English or Korean
 
-Both settings persist through `localStorage`.
-
-### Info
-
-Use the Info button in the top-right header to see:
-
-- Creator: Peaplant
-- Web program version
-- GitHub repository: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
-- AI development message
-
-The repository link opens in a new tab.
+The Home screen also provides language controls. Home and Settings use the same language state and persisted setting.
 
 ### Local Development
 
@@ -92,8 +95,6 @@ Run the optional full local stack including the backend wrapper:
 npm run dev
 ```
 
-### Build
-
 Build the static GitHub Pages output:
 
 ```bash
@@ -113,85 +114,58 @@ npm run test
 npm run typecheck
 ```
 
-### GitHub Pages Deployment
-
-The project includes `gh-pages` deployment scripts:
-
-```bash
-npm install
-npm run build
-npm run deploy
-```
-
-Then enable GitHub Pages for the `gh-pages` branch in the repository settings.
-
-GitHub Pages settings:
-
-- Source: Deploy from a branch
-- Branch: `gh-pages`
-- Folder: `/ (root)`
-
-This is a Vite project. The deployed files come from `frontend/dist`, and `vite.config.ts` must keep this exact repository base path:
-
-```ts
-base: "/Multi-MC-modpack-Web-tool/"
-```
-
-The root `package.json` contains:
-
-```json
-{
-  "homepage": "https://peap1ant.github.io/Multi-MC-modpack-Web-tool/",
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d frontend/dist"
-  }
-}
-```
-
 ## Korean
 
 ### 개요
 
-Multi-MC-modpack-Web-tool은 합금 재료 조합을 계산하는 React + TypeScript 기반 웹 GUI입니다. 기존 Python Tkinter 프로그램의 계산 로직을 순수 TypeScript 엔진으로 변환했으며, GitHub Pages에서 Node.js 서버 없이 브라우저에서 직접 실행됩니다.
+Multi-MC-modpack-Web-tool은 Minecraft 모드팩 유틸리티를 위한 React + TypeScript 기반 웹 도구 모음입니다. 첫 진입 화면은 Home이며, 프로젝트 정보, 버전 정보, 언어 변경, 현재 기능 설명을 표시합니다.
 
 제작자: Peaplant  
-GitHub 사용자 이름: Peap1ant  
-저장소: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
+GitHub 사용자 이름: Peap1ant
 
 이 프로그램은 AI의 도움을 받아 개발되었습니다.
 
-### 실행 링크
+### 메뉴 구조
 
-https://peap1ant.github.io/Multi-MC-modpack-Web-tool/
+상단 메뉴는 분류 기반 구조를 사용합니다.
+
+- Home
+- TFC
+- TFC Alloy Calculator
+
+Home은 기본 진입 화면이며 메뉴 최상단에 표시됩니다. 기존 테스트 탭은 삭제되었습니다. TFC Alloy Calculator는 TFC 분류 아래에 표시됩니다.
 
 ### 주요 기능
 
-- Node.js 서버 없이 GitHub Pages 정적 배포 가능
-- 일반 입력 기준 1초 미만을 목표로 하는 브라우저 내부 합금 계산
+- 프로젝트 이름, 제작자, 버전, 언어 변경, 기능 설명을 표시하는 Home 화면
+- 펼침/접힘이 가능한 분류 기반 메뉴
+- TerraFirmaCraft 합금 및 금속 주조를 위한 TFC Alloy Calculator
 - Vessel 및 Crucible 계산 모드
 - 비율, 용량, 입력값 검증과 명확한 오류 메시지
 - 라이트, 다크, 시스템 설정 따르기 테마
-- 영어/한국어 UI 언어 설정
-- 설정값 localStorage 저장
+- Home과 Settings에서 모두 가능한 영어/한국어 UI 언어 설정
+- 설정값 `localStorage` 저장
 - 사이트를 닫았다 열어도 이전 입력을 복원하는 자동 임시 저장
 - 재료 이름, 색상, 비율, 합금 이름, 주괴당 mB를 저장/불러오기하는 preset 기능
-- Python 프로그램과 같은 사용 가능 색상 안내 tooltip
 - 계산 결과 기반 원 그래프, label, legend, tooltip
 - 제작자, 버전, GitHub 링크, AI 개발 메시지를 보여주는 정보 모달
+- Node.js 서버 없이 GitHub Pages 정적 배포 가능
 
-### 사용 방법
+### TFC Alloy Calculator 사용 방법
 
-1. 재료 행을 하나 이상 추가합니다.
-2. 재료 이름, 보유 개수, 아이템당 mB, 최소/최대 비율, 색상을 입력합니다.
-3. 합금 목표 이름, 목표 제작 개수, 주괴당 mB를 입력합니다.
-4. Vessel 또는 Crucible을 선택합니다. Crucible은 최대 용량 값이 필요합니다.
-5. 계산 버튼을 누릅니다.
-6. 제작 가능 여부, 재료 비율, 사용할 아이템 수, 제약 조건, 원 그래프를 확인합니다.
+1. 메뉴를 엽니다.
+2. TFC 분류를 펼칩니다.
+3. TFC Alloy Calculator를 선택합니다.
+4. 재료 행을 하나 이상 추가합니다.
+5. 재료 이름, 보유 개수, 아이템당 mB, 최소/최대 비율, 색상을 입력합니다.
+6. 합금 목표 이름, 목표 제작 개수, 주괴당 mB를 입력합니다.
+7. Vessel 또는 Crucible을 선택합니다. Crucible은 최대 용량 값이 필요합니다.
+8. 계산 버튼을 누릅니다.
+9. 제작 가능 여부, 재료 비율, 사용할 아이템 수, 제약 조건, 원 그래프를 확인합니다.
 
-고유 재료가 하나뿐이면 Python 프로그램과 동일하게 비율 조건을 무시합니다.
+고유 재료가 하나뿐이면 기존 Python 프로그램과 동일하게 비율 조건을 무시합니다.
 
-### Save & Load
+### 저장 & 불러오기
 
 계산 버튼 오른쪽의 저장 & 불러오기 버튼을 사용합니다.
 
@@ -199,7 +173,7 @@ https://peap1ant.github.io/Multi-MC-modpack-Web-tool/
 - 불러오기: 저장된 preset을 현재 입력 필드에 반영합니다. 자동 계산은 하지 않습니다.
 - 삭제: 확인 후 preset을 삭제합니다.
 
-preset 데이터는 autosave 데이터와 별도 localStorage key에 저장됩니다.
+preset 데이터는 autosave 데이터와 별도 `localStorage` key에 저장됩니다.
 
 ### 설정
 
@@ -208,18 +182,7 @@ preset 데이터는 autosave 데이터와 별도 localStorage key에 저장됩�
 - 화면: 라이트, 다크, 시스템 설정 따르기
 - 언어: 영어 또는 한국어
 
-두 설정은 모두 localStorage에 저장되어 다음 방문 때 유지됩니다.
-
-### 정보
-
-화면 오른쪽 위 Info 버튼에서 다음 정보를 확인할 수 있습니다.
-
-- Creator: Peaplant
-- 웹 프로그램 버전
-- GitHub 저장소: https://github.com/Peap1ant/Multi-MC-modpack-Web-tool
-- AI 개발 도움 메시지
-
-GitHub 저장소 링크는 새 탭에서 열립니다.
+Home 화면에서도 언어를 변경할 수 있습니다. Home과 Settings는 같은 언어 상태와 저장된 설정을 사용합니다.
 
 ### 로컬 실행
 
@@ -241,8 +204,6 @@ npm run dev:static
 npm run dev
 ```
 
-### 빌드
-
 GitHub Pages용 정적 파일 빌드:
 
 ```bash
@@ -260,40 +221,4 @@ frontend/dist/
 ```bash
 npm run test
 npm run typecheck
-```
-
-### GitHub Pages 배포
-
-`gh-pages` 배포 스크립트가 포함되어 있습니다.
-
-```bash
-npm install
-npm run build
-npm run deploy
-```
-
-그 뒤 GitHub 저장소 설정에서 `gh-pages` 브랜치를 Pages 배포 대상으로 지정합니다.
-
-GitHub Pages 설정:
-
-- Source: Deploy from a branch
-- Branch: `gh-pages`
-- Folder: `/ (root)`
-
-이 프로젝트는 Vite 프로젝트입니다. 배포 파일은 `frontend/dist`에서 생성되며, `vite.config.ts`에는 실제 저장소 이름과 같은 다음 base path가 유지되어야 합니다.
-
-```ts
-base: "/Multi-MC-modpack-Web-tool/"
-```
-
-루트 `package.json`에는 다음 설정이 포함되어 있습니다.
-
-```json
-{
-  "homepage": "https://peap1ant.github.io/Multi-MC-modpack-Web-tool/",
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d frontend/dist"
-  }
-}
 ```

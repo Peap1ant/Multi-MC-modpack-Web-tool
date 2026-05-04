@@ -11,6 +11,7 @@
   --primary-strong: #164e63;
   --danger-bg: #fee2e2;
   --danger-text: #991b1b;
+  --automation-highlight: #facc15;
   --shadow: 0 18px 50px rgba(15, 23, 42, 0.18);
   background: var(--bg);
   color: var(--text);
@@ -31,6 +32,7 @@
     --primary-strong: #2f7d96;
     --danger-bg: #451a1a;
     --danger-text: #fecaca;
+    --automation-highlight: #ffffff;
     --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
   }
 }
@@ -47,6 +49,7 @@
   --primary-strong: #2f7d96;
   --danger-bg: #451a1a;
   --danger-text: #fecaca;
+  --automation-highlight: #ffffff;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 }
 
@@ -60,22 +63,42 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
 .site-header {
   min-height: 64px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) auto minmax(120px, 1fr);
   align-items: center;
   gap: 16px;
   padding: 12px 18px 0;
+  position: relative;
+  z-index: 5;
 }
 
-.header-spacer {
-  min-height: 44px;
-  flex: 1;
+.header-menu {
+  position: relative;
+  justify-self: start;
+}
+
+.menu-button {
+  min-width: 84px;
+}
+
+.header-current-tab {
+  min-width: 0;
+  max-width: min(46vw, 520px);
+  justify-self: center;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .header-actions {
@@ -83,6 +106,64 @@ input {
   justify-content: flex-end;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.tab-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(280px, calc(100vw - 36px));
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.tab-menu button {
+  width: 100%;
+  min-height: 40px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.tab-menu-category > button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.tab-menu button:hover,
+.tab-menu button:focus-visible {
+  background: var(--surface-soft);
+  outline: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  outline-offset: 1px;
+}
+
+.tab-menu button.selected {
+  background: var(--primary-strong);
+  color: #ffffff;
+}
+
+.tab-menu button.category-active {
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+  color: var(--text);
+}
+
+.tab-menu-children {
+  display: grid;
+  gap: 4px;
+  margin: 4px 0 0 12px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
 }
 
 .app-shell {
@@ -103,6 +184,95 @@ input {
 
 .workspace {
   padding: 18px;
+}
+
+.home-tab {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 18px;
+}
+
+.home-hero {
+  min-height: 240px;
+  display: grid;
+  align-items: end;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.home-hero h1 {
+  margin-top: 6px;
+  font-size: clamp(32px, 6vw, 56px);
+}
+
+.home-hero p {
+  max-width: 720px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.home-panel {
+  padding: 18px;
+}
+
+.home-info-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.home-info-list div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+}
+
+.home-info-list dt {
+  color: var(--muted);
+}
+
+.home-info-list dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.home-language {
+  margin-top: 14px;
+}
+
+.feature-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.feature-card {
+  min-height: 132px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.feature-card p {
+  font-size: 13px;
 }
 
 .topbar {
@@ -188,7 +358,8 @@ a {
   margin-bottom: 8px;
 }
 
-input {
+input,
+select {
   width: 100%;
   height: 38px;
   border: 1px solid var(--border);
@@ -198,7 +369,8 @@ input {
   color: var(--text);
 }
 
-input:disabled {
+input:disabled,
+select:disabled {
   color: var(--muted);
   background: var(--surface-soft);
 }
@@ -477,20 +649,437 @@ label {
   margin-top: 2px;
 }
 
+.automation-shell {
+  height: calc(100vh - 64px);
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 440px;
+  gap: 18px;
+  padding: 18px;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.automation-graph-panel,
+.automation-settings {
+  min-width: 0;
+}
+
+.automation-graph-panel {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.automation-topbar {
+  margin-bottom: 14px;
+}
+
+.automation-topbar-help {
+  font-size: 12px;
+}
+
+.automation-topbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.automation-graph-grid {
+  position: relative;
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--surface-soft);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--border) 68%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 68%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.automation-graph-grid:focus-visible {
+  outline: 2px solid var(--automation-highlight);
+  outline-offset: 2px;
+}
+
+.automation-graph-grid.panning {
+  cursor: grabbing;
+}
+
+.automation-graph-canvas {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+  touch-action: none;
+  user-select: none;
+}
+
+.automation-empty {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  z-index: 2;
+  max-width: min(420px, calc(100% - 48px));
+}
+
+.automation-edge-layer {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.automation-edge-layer marker path {
+  fill: currentColor;
+}
+
+.automation-edge {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0.82;
+}
+
+.automation-node-card {
+  position: absolute;
+  width: 132px;
+  height: 112px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: grab;
+  box-shadow: none;
+  touch-action: none;
+  user-select: none;
+}
+
+.automation-node-card.dragging {
+  cursor: grabbing;
+}
+
+.automation-node-card.selected {
+  outline: 3px solid var(--automation-highlight);
+  outline-offset: 1px;
+}
+
+.automation-node-shape {
+  width: 62px;
+  height: 62px;
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--text) 30%, transparent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--text) 12%, transparent);
+}
+
+.automation-node-shape.circle {
+  border-radius: 50%;
+}
+
+.automation-node-shape.diamond {
+  transform: rotate(45deg);
+}
+
+.automation-node-name {
+  width: 100%;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.automation-kind-pill {
+  width: max-content;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.automation-graph-actions {
+  position: sticky;
+  left: 14px;
+  top: calc(100% - 48px);
+  z-index: 4;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 80px));
+  display: flex;
+  gap: 8px;
+  margin: 0 auto 14px 14px;
+  pointer-events: auto;
+}
+
+.automation-file-input {
+  display: none;
+}
+
+.automation-settings {
+  width: 440px;
+  max-width: 440px;
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.automation-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.automation-settings-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.automation-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.automation-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+
+.automation-field-grid.three {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.automation-shape-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.automation-shape-row button {
+  min-height: 70px;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  min-width: 0;
+}
+
+.automation-shape-row button:last-child {
+  border-right: 0;
+}
+
+.automation-shape-row button.selected {
+  background: var(--primary-strong);
+  color: #ffffff;
+}
+
+.automation-shape-preview {
+  width: 24px;
+  height: 24px;
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--text) 24%, transparent);
+}
+
+.automation-shape-preview.circle {
+  border-radius: 50%;
+}
+
+.automation-shape-preview.diamond {
+  transform: rotate(45deg);
+}
+
+.automation-form-section {
+  display: grid;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  min-width: 0;
+}
+
+.automation-section-heading,
+.automation-form-section .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.automation-section-heading h3,
+.automation-form-section .panel-heading h3 {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.automation-form-section p {
+  font-size: 12px;
+}
+
+.automation-resource-list {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.automation-resource-card {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.automation-resource-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) 72px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+
+.automation-resource-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 82px 82px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+
+.automation-resource-details.compact {
+  grid-template-columns: 120px;
+}
+
+.automation-resource-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.automation-inline-field {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.automation-inline-field span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.automation-inline-field input {
+  min-width: 0;
+}
+
+.automation-checkbox {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.automation-checkbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.automation-delete-button {
+  justify-self: start;
+  min-width: 120px;
+}
+
 @media (max-width: 1100px) {
-  .app-shell {
+  .app-shell,
+  .automation-shell {
     grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100vh - 64px);
+    overflow: visible;
+  }
+
+  .automation-settings {
+    width: auto;
+    max-width: none;
+    height: auto;
+    max-height: none;
+  }
+
+  .automation-graph-grid {
+    min-height: 560px;
   }
 }
 
 @media (max-width: 760px) {
-  .site-header,
-  .app-shell {
+  .site-header {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  .app-shell {
+  .app-shell,
+  .automation-shell {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .header-current-tab {
+    max-width: 100%;
+    font-size: 15px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .site-header .secondary-button {
+    min-height: 34px;
+    padding: 0 10px;
+  }
+
+  .app-shell,
+  .automation-shell {
     padding-top: 10px;
   }
 
@@ -502,13 +1091,51 @@ label {
 
   .target-grid,
   .metric-grid,
+  .home-grid,
+  .feature-list,
   .save-row,
   .info-list div,
-  .preset-row {
+  .home-info-list div,
+    .preset-row {
     grid-template-columns: 1fr;
+  }
+
+  .automation-field-grid,
+  .automation-field-grid.three,
+  .automation-resource-main,
+  .automation-resource-details,
+  .automation-resource-details.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .automation-resource-actions,
+  .automation-actions {
+    justify-content: stretch;
+  }
+
+  .automation-resource-actions button,
+  .automation-actions button {
+    flex: 1 1 auto;
   }
 
   .segmented {
     grid-auto-flow: row;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .header-current-tab {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+    order: 3;
+  }
+
+  .header-actions {
+    justify-self: end;
   }
 }
