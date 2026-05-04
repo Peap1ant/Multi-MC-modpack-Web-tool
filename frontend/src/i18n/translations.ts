@@ -83,7 +83,7 @@ export const translations = {
       graphHelp: "Drag nodes. Use Arrow keys or WASD to move selected node.",
       graphPanHelp: "Drag empty graph area to pan. Click a node to edit.",
       unnamedNode: "Unnamed node",
-      none: "없음",
+      none: "None",
       basicInfo: "Basic info",
       nodeName: "Node name",
       nodeColor: "Node color",

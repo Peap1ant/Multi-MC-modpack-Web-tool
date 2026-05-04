@@ -444,7 +444,7 @@ export function AutomationCalculatorTab({ labels }: AutomationCalculatorTabProps
 
   function updateProcessingTime(value: string) {
     const parsed = Number(value);
-    updateSelectedProcessNode((node) => ({ ...node, processingTime: { ...node.processingTime, value: Number.isFinite(parsed) ? parsed : node.processingTime.value } }));
+    updateSelectedProcessNode((node) => ({ ...node, processingTime: { ...node.processingTime, value: value.trim() === "" ? "" : Number.isFinite(parsed) ? parsed : node.processingTime.value } }));
   }
 
   function updatePowerUnit(value: string) {
@@ -456,7 +456,7 @@ export function AutomationCalculatorTab({ labels }: AutomationCalculatorTabProps
       ...node,
       processingTime: {
         mode: value === "ticks" ? "ticks" : "seconds",
-        value: 1
+        value: ""
       }
     }));
   }
@@ -612,7 +612,7 @@ function ResourceNodeSettings({ node, labels, onChange }: { node: AutomationReso
             <option value="fluid">{labels.fluid}</option>
           </select>
         </label>
-        <label>{labels.resourceName}<input value={node.resource.name} onChange={(event) => onChange({ name: event.target.value || AUTOMATION_NONE })} /></label>
+        <label>{labels.resourceName}<input value={node.resource.name} onChange={(event) => onChange({ name: event.target.value })} /></label>
         <label>{labels.resourceAmount}<input inputMode="decimal" value={node.resource.amount} onChange={(event) => onChange({ amount: toPositiveNumber(event.target.value, node.resource.amount) })} /></label>
         <label>{labels.resourceColor}<input list="automation-color-options" title={labels.colorHelp} value={node.resource.color} onChange={(event) => onChange({ color: event.target.value })} /></label>
       </div>
@@ -666,7 +666,7 @@ function InputItemRow({ row, labels, expanded, onToggle, onChange, onRemove }: {
   return (
     <ResourceShell expanded={expanded} moreLabel={labels.more} lessLabel={labels.less} onToggle={onToggle} onRemove={onRemove}>
       <div className="automation-resource-main">
-        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value || AUTOMATION_NONE })} /></Field>
+        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value })} /></Field>
         <Field label={labels.amount}><input inputMode="decimal" value={row.amount} onChange={(event) => onChange({ amount: toPositiveNumber(event.target.value, row.amount) })} /></Field>
         <Field label={labels.color}><input list="automation-color-options" title={labels.colorHelp} value={row.color} onChange={(event) => onChange({ color: event.target.value })} /></Field>
       </div>
@@ -686,7 +686,7 @@ function InputFluidRow({ row, labels, expanded, onToggle, onChange, onRemove }: 
   return (
     <ResourceShell expanded={expanded} moreLabel={labels.more} lessLabel={labels.less} onToggle={onToggle} onRemove={onRemove}>
       <div className="automation-resource-main">
-        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value || AUTOMATION_NONE })} /></Field>
+        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value })} /></Field>
         <Field label={labels.amountMb}><input inputMode="decimal" value={row.amountMb} onChange={(event) => onChange({ amountMb: toPositiveNumber(event.target.value, row.amountMb) })} /></Field>
         <Field label={labels.color}><input list="automation-color-options" title={labels.colorHelp} value={row.color} onChange={(event) => onChange({ color: event.target.value })} /></Field>
       </div>
@@ -706,7 +706,7 @@ function OutputItemRow({ row, labels, expanded, onToggle, onChange, onRemove }: 
   return (
     <ResourceShell expanded={expanded} moreLabel={labels.more} lessLabel={labels.less} onToggle={onToggle} onRemove={onRemove}>
       <div className="automation-resource-main">
-        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value || AUTOMATION_NONE })} /></Field>
+        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value })} /></Field>
         <Field label={labels.amount}><input inputMode="decimal" value={row.amount} onChange={(event) => onChange({ amount: toPositiveNumber(event.target.value, row.amount) })} /></Field>
         <Field label={labels.color}><input list="automation-color-options" title={labels.colorHelp} value={row.color} onChange={(event) => onChange({ color: event.target.value })} /></Field>
       </div>
@@ -723,7 +723,7 @@ function OutputFluidRow({ row, labels, expanded, onToggle, onChange, onRemove }:
   return (
     <ResourceShell expanded={expanded} moreLabel={labels.more} lessLabel={labels.less} onToggle={onToggle} onRemove={onRemove}>
       <div className="automation-resource-main">
-        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value || AUTOMATION_NONE })} /></Field>
+        <Field label={labels.name}><input value={row.name} onChange={(event) => onChange({ name: event.target.value })} /></Field>
         <Field label={labels.amountMb}><input inputMode="decimal" value={row.amountMb} onChange={(event) => onChange({ amountMb: toPositiveNumber(event.target.value, row.amountMb) })} /></Field>
         <Field label={labels.color}><input list="automation-color-options" title={labels.colorHelp} value={row.color} onChange={(event) => onChange({ color: event.target.value })} /></Field>
       </div>
@@ -806,14 +806,14 @@ function validateNodes(nodes: AutomationNode[], text: ReturnType<typeof getTrans
     if (node.color.trim() && !isValidCssColorInput(node.color)) return `${node.name || text.none}: ${text.invalidColor}`;
     if (node.kind === "resource") {
       if (node.resource.color.trim() && !isValidCssColorInput(node.resource.color)) return `${node.resource.name || text.none}: ${text.invalidColor}`;
-      if (node.resource.amount <= 0) return text.invalidAmount;
+      if (typeof node.resource.amount !== "number" || node.resource.amount <= 0) return text.invalidAmount;
       continue;
     }
     const rows = [...node.inputs.items, ...node.inputs.fluids, ...node.outputs.items, ...node.outputs.fluids];
     const badRow = rows.find((row) => row.color.trim() && !isValidCssColorInput(row.color));
     if (badRow) return `${badRow.name || node.name || text.none}: ${text.invalidColor}`;
-    if (node.processingTime.mode === "ticks" && (!Number.isInteger(node.processingTime.value) || node.processingTime.value < 1 || node.processingTime.value > 19)) return text.invalidTicks;
-    if (node.processingTime.mode === "seconds" && node.processingTime.value < 1) return text.invalidSeconds;
+    if (node.processingTime.mode === "ticks" && (typeof node.processingTime.value !== "number" || !Number.isInteger(node.processingTime.value) || node.processingTime.value < 1 || node.processingTime.value > 19)) return text.invalidTicks;
+    if (node.processingTime.mode === "seconds" && (typeof node.processingTime.value !== "number" || node.processingTime.value < 1)) return text.invalidSeconds;
     if (node.power.consumePerTick !== null && node.power.consumePerTick < 0) return text.invalidPower;
     if (node.power.producePerTick !== null && node.power.producePerTick < 0) return text.invalidPower;
   }
@@ -825,14 +825,14 @@ function createProcessNode(position: { x: number; y: number }): AutomationProces
   return {
     id: createId("process"),
     kind: "process",
-    name: AUTOMATION_NONE,
+    name: "",
     shape: "square",
     color,
     position,
     inputs: { items: [], fluids: [] },
     outputs: { items: [], fluids: [] },
     power: { consumePerTick: null, producePerTick: null, unit: "FE/t" },
-    processingTime: { mode: "seconds", value: 1 }
+    processingTime: { mode: "seconds", value: "" }
   };
 }
 
@@ -841,14 +841,14 @@ function createResourceNode(position: { x: number; y: number }): AutomationResou
   return {
     id: createId("resource"),
     kind: "resource",
-    name: AUTOMATION_NONE,
+    name: "",
     shape: "circle",
     color,
     position,
     resource: {
       kind: "item",
-      name: AUTOMATION_NONE,
-      amount: 1,
+      name: "",
+      amount: "",
       color
     }
   };
@@ -869,19 +869,19 @@ function getNextNodePosition(nodes: AutomationNode[]) {
 }
 
 function createInputItem(): AutomationItemInput {
-  return { id: createId("item-in"), name: AUTOMATION_NONE, amount: 1, color: getDefaultAutomationColor(), perTick: AUTOMATION_NONE, perTickChance: 100, processChance: 100, notConsumed: false };
+  return { id: createId("item-in"), name: "", amount: "", color: getDefaultAutomationColor(), perTick: AUTOMATION_NONE, perTickChance: 100, processChance: 100, notConsumed: false };
 }
 
 function createInputFluid(): AutomationFluidInput {
-  return { id: createId("fluid-in"), name: AUTOMATION_NONE, amountMb: 1000, color: getDefaultAutomationColor(), perTick: AUTOMATION_NONE, perTickChance: 100, processChance: 100, notConsumed: false };
+  return { id: createId("fluid-in"), name: "", amountMb: "", color: getDefaultAutomationColor(), perTick: AUTOMATION_NONE, perTickChance: 100, processChance: 100, notConsumed: false };
 }
 
 function createOutputItem(): AutomationItemOutput {
-  return { id: createId("item-out"), name: AUTOMATION_NONE, amount: 1, color: getDefaultAutomationColor(), chance: 100 };
+  return { id: createId("item-out"), name: "", amount: "", color: getDefaultAutomationColor(), chance: 100 };
 }
 
 function createOutputFluid(): AutomationFluidOutput {
-  return { id: createId("fluid-out"), name: AUTOMATION_NONE, amountMb: 1000, color: getDefaultAutomationColor(), chance: 100 };
+  return { id: createId("fluid-out"), name: "", amountMb: "", color: getDefaultAutomationColor(), chance: 100 };
 }
 
 function createId(prefix: string): string {
@@ -907,7 +907,8 @@ function getDefaultAutomationColor(): string {
   return theme === "dark" || (theme === "system" && systemDark) || (!theme && systemDark) ? "#000000" : "#ffffff";
 }
 
-function toPositiveNumber(value: string, fallback: number): number {
+function toPositiveNumber(value: string, fallback: number | ""): number | "" {
+  if (value.trim() === "") return "";
   const parsed = Number(value);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }

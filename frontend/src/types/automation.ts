@@ -20,7 +20,7 @@ export interface AutomationBaseNode {
 export interface AutomationItemInput {
   id: string;
   name: string;
-  amount: number;
+  amount: number | "";
   color: string;
   perTick: string;
   perTickChance: number;
@@ -31,7 +31,7 @@ export interface AutomationItemInput {
 export interface AutomationFluidInput {
   id: string;
   name: string;
-  amountMb: number;
+  amountMb: number | "";
   color: string;
   perTick: string;
   perTickChance: number;
@@ -42,7 +42,7 @@ export interface AutomationFluidInput {
 export interface AutomationItemOutput {
   id: string;
   name: string;
-  amount: number;
+  amount: number | "";
   color: string;
   chance: number;
 }
@@ -50,7 +50,7 @@ export interface AutomationItemOutput {
 export interface AutomationFluidOutput {
   id: string;
   name: string;
-  amountMb: number;
+  amountMb: number | "";
   color: string;
   chance: number;
 }
@@ -72,7 +72,7 @@ export interface AutomationProcessNode extends AutomationBaseNode {
   };
   processingTime: {
     mode: AutomationProcessingTimeMode;
-    value: number;
+    value: number | "";
   };
 }
 
@@ -81,7 +81,7 @@ export interface AutomationResourceNode extends AutomationBaseNode {
   resource: {
     kind: AutomationResourceKind;
     name: string;
-    amount: number;
+    amount: number | "";
     color: string;
   };
 }
